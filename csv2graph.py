@@ -76,8 +76,8 @@ def convert_to_graph(
         usecols=[source] + target + (node_index or []) + (node_attrs or []) + (edge_attrs or []),
     )
 
-    df[source] = df[source].apply(source_map)
-    df[target] = df[target].applymap(target_map)
+    df[source] = df[source].astype(str).apply(source_map)
+    df[target] = df[target].astype(str).applymap(target_map)
 
     if explode:
         for column in [source] + target:
@@ -128,9 +128,10 @@ def find_mentions(x) -> list:
     Mentions are preceeded by an @-sign and may include
     letters, numbers and underscores to a max. of 30 chars.
     '''
-    regexp = r"@[a-zA-Z0-9_]{0,30}"
-    mentions = findall(regexp, x.lower()) if isinstance(x, str) else []
-    return [mention.lstrip('@') for mention in mentions if len(mention)>1 ]
+    # regexp = r"@[a-zA-Z0-9_]{0,50}"
+    # mentions = findall(regexp, x.lower()) if isinstance(x, str) else []
+    mentions = [_ for _ in x.lower().split() if _.startswith("@")]
+    return [mention.lstrip("@") for mention in mentions if len(mention)>2]
 
 
 def find_hashtags(x) -> list:
@@ -138,9 +139,10 @@ def find_hashtags(x) -> list:
     Mentions are preceeded by an @-sign and may include
     letters, numbers and underscores to a max. of 30 chars.
     '''
-    regexp = r"#[a-zA-Z0-9_]{0,30}"
-    hashtags = findall(regexp, x.lower()) if isinstance(x, str) else []
-    return [hashtag.lstrip('@') for hashtag in hashtags if len(hashtag)>1 ]
+    # regexp = r"#[a-zA-Z0-9_]{0,50}"
+    # hashtags = findall(regexp, x.lower()) if isinstance(x, str) else []
+    hashtags = [_ for _ in x.lower().split() if _.startswith("#")]
+    return [hashtag for hashtag in hashtags if len(hashtag)>2]
 
 
 def get_file_delimiter(input_name):
