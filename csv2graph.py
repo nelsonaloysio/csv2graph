@@ -44,7 +44,7 @@ import networkx as nx
 import pandas as pd
 
 
-def convert_to_graph(
+def csv2graph(
     file_name: str,
     source: str,
     target: list,
@@ -237,4 +237,4 @@ def args() -> dict:
 
 
 if __name__ == "__main__":
-    convert_to_graph(**args())
+    csv2graph(**args())
