@@ -93,7 +93,7 @@ def convert_to_graph(
 
     if weighted:
         weights = E.value_counts()
-        E['weight'] = [weights.loc[x, y] for x, y in zip(E.iloc[:, 0], E.iloc[:, 1])]
+        E['weight'] = [float(weights.loc[x, y]) for x, y in zip(E.iloc[:, 0], E.iloc[:, 1])]
 
     G = nx\
         .convert_matrix\
