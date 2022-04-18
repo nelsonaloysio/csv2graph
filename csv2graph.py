@@ -131,7 +131,7 @@ def find_mentions(x) -> list:
     # regexp = r"@[a-zA-Z0-9_]{0,50}"
     # mentions = findall(regexp, x.lower()) if isinstance(x, str) else []
     mentions = [_ for _ in x.lower().split() if _.startswith("@")]
-    return [mention.lstrip("@") for mention in mentions if len(mention)>2]
+    return [mention.lstrip("@") for mention in mentions if len(mention)>1]
 
 
 def find_hashtags(x) -> list:
